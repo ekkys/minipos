@@ -7,16 +7,16 @@
         <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav">
             <li class="nav-item">
-            <a class="nav-link " aria-current="page" href="">Home</a> 
-            {{-- {{ ( $active === "home" ? 'active' : '') }} --}}
+            <a class="nav-link  {{ ( $active === "home" ? 'active' : '') }}" aria-current="page" href="">Home</a> 
+           
             </li>
             <li class="nav-item">
             <a class="nav-link " href="">Products</a>
             {{-- {{ ( $active === "about" ? 'active' : '') }} --}}
             </li>
             <li class="nav-item">
-            <a class="nav-link " href="">Suppliers</a>
-            {{-- {{ ( $active === "posts" ? 'active' : '') }} --}}
+            <a class="nav-link {{ ( $active === "suppliers" ? 'active' : '') }}" href="{{ route('suppliers.index') }}">Suppliers</a>
+            
             </li>
             <li class="nav-item">
             <a class="nav-link " href="">Purchases</a>
@@ -35,9 +35,7 @@
                       {{ auth()->user()->name }}
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="#"><i class="bi bi-window-sidebar"></i> My Dashboard</a></li>
-                        <li><hr class="dropdown-divider"></li>
-                        <form action="/logout" method="post">
+                        <form action="{{ route('logout') }}" method="post">
                             @csrf
                             <button type="submit" class="dropdown-item"><i class="bi bi-box-arrow-left"></i> Logout</button>
                         </form>
@@ -45,7 +43,7 @@
                 </li>
             @else
                 <li class="nav-item">
-                <a class="nav-link " href="/login"> <i class="bi bi-box-arrow-in-right"></i>   Login </a>
+                <a class="nav-link " href="{{ route('login') }}"> <i class="bi bi-box-arrow-in-right"></i>   Login </a>
                 </li>
             @endauth
         </ul>

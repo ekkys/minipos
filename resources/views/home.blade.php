@@ -24,3 +24,10 @@
 
 
 @extends('layouts.main')
+@section('title-page', 'Home')
+    
+
+
+@section('container')
+
+@endsection
