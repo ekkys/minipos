@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Supplier;
 use App\Http\Requests\StoreSupplierRequest;
 use App\Http\Requests\UpdateSupplierRequest;
+use Datatables;
+
 
 class SupplierController extends Controller
 {
@@ -16,8 +18,19 @@ class SupplierController extends Controller
     public function index()
     {
         return view('admin.suppliers.index', [
-            'active' => 'suppliers'
+            'active' => 'suppliers',
+            
         ]);
+    }
+
+    public function supplierjson()
+    {
+        return Datatables::of(Supplier::all())
+        // ->addColumn('action', function ($user) {
+        //     return '<a href="#edit-'.$user->id.'" class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-edit"></i> Edit</a>';
+        // })
+        // ->editColumn('id', 'ID: {{$id}}')
+        ->make(true);
     }
 
     /**
@@ -27,7 +40,9 @@ class SupplierController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.suppliers.create',  [
+            'active' => 'suppliers'
+        ]);
     }
 
     /**
@@ -38,7 +53,9 @@ class SupplierController extends Controller
      */
     public function store(StoreSupplierRequest $request)
     {
-        //
+        // dd($request->all());
+        Supplier::create($request->all());
+        return redirect('suppliers')->with('success', 'Supplier has been created!');
     }
 
     /**

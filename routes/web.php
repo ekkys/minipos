@@ -15,10 +15,12 @@ use App\Http\Controllers\SupplierController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('auth.login');
 });
 
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::get('/suppliers/json', [SupplierController::class,'supplierjson'])->name('supplier.json');
 Route::resource('suppliers', SupplierController::class);
