@@ -20,8 +20,8 @@
                 <thead>
                     <th>No</th>
                     <th>Name</th>
-                    <th>Phone</th>
                     <th>Address</th>
+                    <th>Phone</th>
                     <th>Options</th>
                 </thead>
                 <tbody>

@@ -24,13 +24,22 @@ class SupplierController extends Controller
                    ->addIndexColumn()
                    ->addColumn('options', function($row){
                       $btn = '<a href="javascript:void(0)" class="edit btn btn-info btn-sm" hidden>View</a>';
-                      $btn = $btn.'<a href="'.route('suppliers.edit',$row->id).'" class="edit btn btn-primary btn-sm">Edit</a>';
-                      $btn = $btn.'<a href="'.route('suppliers.destroy',$row->id).'" class="edit btn btn-danger btn-sm">Delete</a>';
-    
-                       return $btn;
+                      $btn = $btn.
+                      '<a href="'.route('suppliers.edit', $row->id).
+                      '" class="edit btn btn-primary btn-sm">Edit</a>';
+                      $btn = $btn.
+                      "<form action=\"".route("suppliers.destroy", $row->id)."\" method=\"post\" class=\"d-inline\">
+                            <input type=\"hidden\" name=\"_method\" value=\"delete\" >
+                            <input type=\"hidden\" name=\"_token\" value=\"".csrf_token()."\" >
+
+                          <button class=\"btn btn-danger btn-sm\" onclick=\"return confirm('Are you sure?')\">Delete</button> 
+                      </form>";
+                    return $btn;
                    })
                    ->rawColumns(['options'])
                    ->make(true);
+
+                  
         }
   
         return view('admin.suppliers.index', [
@@ -88,7 +97,10 @@ class SupplierController extends Controller
      */
     public function edit(Supplier $supplier)
     {
-        
+        return view('admin.suppliers.edit', [
+            'active' => 'suppliers',
+            'supplier' => $supplier
+        ]);
     }
 
     /**
@@ -100,7 +112,8 @@ class SupplierController extends Controller
      */
     public function update(UpdateSupplierRequest $request, Supplier $supplier)
     {
-        //
+        Supplier::find($supplier->id)->update($request->all());
+        return redirect('suppliers')->with('success', 'Supplier hasbeen updated');
     }
 
     /**
@@ -111,8 +124,8 @@ class SupplierController extends Controller
      */
     public function destroy(Supplier $supplier)
     {
-        Supplier::destroy($supplier->id);
-
+        // dd($supplier);
+        $supplier->delete();
         return redirect('suppliers')->with('success','Post has been deleted!');
     }
 }
