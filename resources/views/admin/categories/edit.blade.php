@@ -28,6 +28,7 @@
                     </div>
                 </div>
                 <button type="submit" class="btn btn-secondary">Update</button>
+                <button type="button" onclick="history.back()" class="btn btn-danger">Cancel</button>
             </form>
         </div>
     </div>
