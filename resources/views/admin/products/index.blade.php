@@ -8,6 +8,11 @@
    {{ session('success')}}
 </div>
 @endif
+@if(session()->has('failed'))
+<div class="alert alert-danger col-lg-8" role="alert">
+   {{ session('failed')}}
+</div>
+@endif
 
     <div class="row">
         <div class="col mb-3">

@@ -31,6 +31,7 @@ class StoreProductRequest extends FormRequest
             'quantity'=> 'required|max:255',
             'category_id'=> 'required|max:255',
             'supplier_id'=> 'required|max:255',
+            'image' => 'image|file|max:1024 ',
         ];
     }
 }

@@ -17,15 +17,13 @@
                     </div>
                     @enderror
                 </div>
-                <div class="input-group mb-3">
-                    <span class="input-group-text" id="description">Description</span>
-                    <input type="text" class="form-control @error('description') is-invalid @enderror" id="description" name="description"
-                        value="{{ old('description') }}" required autofocus>
+                <div class="mb-3">
+                    <label for="description" class="form-label">Description</label>
+                    <input id="description" type="hidden" name="description" value="{{ old('description') }}">
                     @error('description')
-                    <div class="invalid-feedback">
-                        {{ $message }}
-                    </div>
+                     <p class="text-danger">{{ $message }}</p>
                     @enderror
+                    <trix-editor input="description"></trix-editor>
                 </div>
                 <div class="input-group mb-3">
                     <span class="input-group-text" id="price">Rp</span>
@@ -49,7 +47,7 @@
                 </div>
                 <div class="input-group mb-3">
                         <select class="form-control  @error('category_id') is-invalid @enderror" id="selectTwo" name="category_id">
-                            <option selected>Choose...</option>
+                            <option selected>Choose Category</option>
                             @foreach ($categories as $category)
                             <option value="{{ $category->id }}">{{ $category->name }}</option>
                             @endforeach
@@ -62,7 +60,7 @@
                 </div>
                 <div class="input-group mb-3">
                         <select class="form-control  @error('supplier_id') is-invalid @enderror" id="selectDua" name="supplier_id">
-                            <option selected>Choose...</option>
+                            <option selected>Choose Supplier</option>
                             @foreach ($suppliers as $supplier)
                             <option value="{{ $supplier->id }}">{{ $supplier->name }}</option>
                             @endforeach
@@ -73,6 +71,16 @@
                     </div>
                     @enderror
                 </div>
+                <div class="mb-3">
+                    <label for="image" class="form-label">Post Image</label>
+                    <img class="img-preview img-fluid mb-3 col-sm-5">
+                    <input class="form-control @error('image') is-invalid @enderror" type="file" id="image" name="image" onchange="previewImage()">
+                        @error('image')
+                            <div class="invalid-feedback">
+                            {{ $message }}
+                            </div>
+                        @enderror
+                </div>
                 
                 <button type="submit" class="btn btn-secondary">Save</button>
                 <button type="button" onclick="history.back()" class="btn btn-danger">Cancel</button>
@@ -81,9 +89,32 @@
     </div>
     
     <script>
-        $(document).ready(function() {
+    //select two
+    $(document).ready(function() {
         $('select.form-control').select2();
     });
-       
+
+    //menonaktifkan  fungsi attachment trix
+    document.addEventListener('trix-file-accept', function(e) {
+        e.preventDefault();
+    })
+
+    function previewImage() {
+            const image = document.querySelector('#image');
+            const imgPreview = document.querySelector('.img-preview');
+
+            console.log(image);
+            console.log(imgPreview);
+
+            imgPreview.style.display = 'block';
+
+            const oFReader = new FileReader();
+            oFReader.readAsDataURL(image.files[0]);
+
+            oFReader.onload = function (oFREvent) {
+                imgPreview.src = oFREvent.target.result;
+            }
+
+    }
     </script>
 @endsection

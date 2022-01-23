@@ -72,7 +72,7 @@ class ProductController extends Controller
      */
     public function store(StoreProductRequest $request)
     {
-        // dd($request->all());
+        
         Product::create($request->all());
         return redirect('products')->with('success', 'Products has been created!');
     }
@@ -96,9 +96,15 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-    
+       
+        $categories = Category::all();
+        $suppliers = Supplier::all();
         return view('admin.products.edit',  [
-            'active' => 'products'
+            'active' => 'products',
+            'product' => $product,
+            'categories' => $categories,
+            'suppliers' => $suppliers,
+
         ]);
     }
 
@@ -111,7 +117,8 @@ class ProductController extends Controller
      */
     public function update(UpdateProductRequest $request, Product $product)
     {
-        //
+        Product::find($product->id)->update($request->all());
+        return redirect('products')->with('success', 'Products hasbeen updated');
     }
 
     /**
@@ -122,6 +129,7 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
-        //
+        $product->delete();
+        return redirect('products')->with('success','Products has been deleted!');
     }
 }
