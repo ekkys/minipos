@@ -15,7 +15,10 @@
             {{-- {{ ( $active === "about" ? 'active' : '') }} --}}
             </li>
             <li class="nav-item">
-            <a class="nav-link {{ ( $active === "category" ? 'active' : '') }}" href="{{ route('categories.index') }}">Category</a>
+            <a class="nav-link {{ ( $active === "category" ? 'active' : '') }}" href="{{ route('categories.index') }}">Categories</a>
+            </li>
+            <li class="nav-item">
+            <a class="nav-link {{ ( $active === "customer" ? 'active' : '') }}" href="{{ route('customers.index') }}">Customers</a>
             </li>
             <li class="nav-item">
             <a class="nav-link {{ ( $active === "suppliers" ? 'active' : '') }}" href="{{ route('suppliers.index') }}">Suppliers</a>
