@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SupplierController;
+use App\Http\Controllers\CategoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,3 +25,5 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 // Route::get('/suppliers/json', [SupplierController::class,'supplierjson'])->name('supplier.json');
 Route::resource('suppliers', SupplierController::class);
+
+Route::resource('categories', CategoryController::class);

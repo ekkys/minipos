@@ -2,14 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Supplier;
-use App\Http\Requests\StoreSupplierRequest;
-use App\Http\Requests\UpdateSupplierRequest;
+use App\Models\Category;
+use App\Http\Requests\StoreCategoryRequest;
+use App\Http\Requests\UpdateCategoryRequest;
 use Datatables;
 use Illuminate\Http\Request;
 
-
-class SupplierController extends Controller
+class CategoryController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -19,16 +18,16 @@ class SupplierController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $data = Supplier::all();
+            $data = Category::all();
             return Datatables::of($data)
                    ->addIndexColumn()
                    ->addColumn('options', function($row){
                       $btn = '<a href="javascript:void(0)" class="edit btn btn-info btn-sm" hidden>View</a>';
                       $btn = $btn.
-                      '<a href="'.route('suppliers.edit', $row->id).
+                      '<a href="'.route('categories.edit', $row->id).
                       '" class="edit btn btn-primary btn-sm">Edit</a>';
                       $btn = $btn.
-                      "<form action=\"".route("suppliers.destroy", $row->id)."\" method=\"post\" class=\"d-inline\">
+                      "<form action=\"".route("categories.destroy", $row->id)."\" method=\"post\" class=\"d-inline\">
                             <input type=\"hidden\" name=\"_method\" value=\"delete\" >
                             <input type=\"hidden\" name=\"_token\" value=\"".csrf_token()."\" >
 
@@ -39,10 +38,8 @@ class SupplierController extends Controller
                    ->rawColumns(['options'])
                    ->make(true);
         }
-  
-        return view('admin.suppliers.index', [
-            'active' => 'suppliers',
-            
+        return view('admin.categories.index',[
+            'active' => 'category'
         ]);
     }
 
@@ -53,31 +50,30 @@ class SupplierController extends Controller
      */
     public function create()
     {
-        return view('admin.suppliers.create',  [
-            'active' => 'suppliers'
+        return view('admin.categories.create', [
+            'active' => 'category'
         ]);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\StoreSupplierRequest  $request
+     * @param  \App\Http\Requests\StoreCategoryRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreSupplierRequest $request)
+    public function store(StoreCategoryRequest $request)
     {
-        // dd($request->all());
-        Supplier::create($request->all());
-        return redirect('suppliers')->with('success', 'Supplier has been created!');
+        Category::create($request->all());
+        return redirect('categories')->with('success', 'Category has been created!');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Supplier  $supplier
+     * @param  \App\Models\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function show(Supplier $supplier)
+    public function show(Category $category)
     {
         //
     }
@@ -85,39 +81,39 @@ class SupplierController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Supplier  $supplier
+     * @param  \App\Models\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function edit(Supplier $supplier)
+    public function edit(Category $category)
     {
-        return view('admin.suppliers.edit', [
-            'active' => 'suppliers',
-            'supplier' => $supplier
+        return view('admin.categories.edit', [
+            'active' => 'category',
+            'category' => $category
         ]);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\UpdateSupplierRequest  $request
-     * @param  \App\Models\Supplier  $supplier
+     * @param  \App\Http\Requests\UpdateCategoryRequest  $request
+     * @param  \App\Models\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateSupplierRequest $request, Supplier $supplier)
+    public function update(UpdateCategoryRequest $request, Category $category)
     {
-        Supplier::find($supplier->id)->update($request->all());
-        return redirect('suppliers')->with('success', 'Supplier hasbeen updated');
+        Category::find($category->id)->update($request->all());
+        return redirect('categories')->with('success', 'Category hasbeen updated');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Supplier  $supplier
+     * @param  \App\Models\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Supplier $supplier)
+    public function destroy(Category $category)
     {
-        $supplier->delete();
-        return redirect('suppliers')->with('success','Supplier has been deleted!');
+        $category->delete();
+        return redirect('categories')->with('success','Category has been deleted!');
     }
 }

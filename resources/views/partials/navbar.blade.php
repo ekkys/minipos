@@ -9,11 +9,13 @@
         <ul class="navbar-nav">
             <li class="nav-item">
             <a class="nav-link  {{ ( $active === "home" ? 'active' : '') }}" aria-current="page" href="">Home</a> 
-           
             </li>
             <li class="nav-item">
             <a class="nav-link " href="">Products</a>
             {{-- {{ ( $active === "about" ? 'active' : '') }} --}}
+            </li>
+            <li class="nav-item">
+            <a class="nav-link {{ ( $active === "category" ? 'active' : '') }}" href="{{ route('categories.index') }}">Category</a>
             </li>
             <li class="nav-item">
             <a class="nav-link {{ ( $active === "suppliers" ? 'active' : '') }}" href="{{ route('suppliers.index') }}">Suppliers</a>
