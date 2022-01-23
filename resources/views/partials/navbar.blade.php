@@ -11,8 +11,7 @@
             <a class="nav-link  {{ ( $active === "home" ? 'active' : '') }}" aria-current="{{ route('home.index') }}" href="">Home</a> 
             </li>
             <li class="nav-item">
-            <a class="nav-link " href="">Products</a>
-            {{-- {{ ( $active === "about" ? 'active' : '') }} --}}
+            <a class="nav-link  {{ ( $active === "product" ? 'active' : '') }} " href="{{ route('products.index') }}">Products</a>
             </li>
             <li class="nav-item">
             <a class="nav-link {{ ( $active === "category" ? 'active' : '') }}" href="{{ route('categories.index') }}">Categories</a>

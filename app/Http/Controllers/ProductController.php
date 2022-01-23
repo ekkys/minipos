@@ -3,8 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use App\Models\Category;
+use App\Models\Supplier;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
+use Datatables;
+use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
@@ -13,9 +17,34 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        if ($request->ajax()) {
+            $data = Product::all();
+            return Datatables::of($data)
+                   ->addIndexColumn()
+                   ->addColumn('options', function($row){
+                      $btn = '<a href="javascript:void(0)" class="edit btn btn-info btn-sm" hidden>View</a>';
+                      $btn = $btn.
+                      '<a href="'.route('products.edit', $row->id).
+                      '" class="edit btn btn-primary btn-sm">Edit</a>';
+                      $btn = $btn.
+                      "<form action=\"".route("products.destroy", $row->id)."\" method=\"post\" class=\"d-inline\">
+                            <input type=\"hidden\" name=\"_method\" value=\"delete\" >
+                            <input type=\"hidden\" name=\"_token\" value=\"".csrf_token()."\" >
+
+                          <button class=\"btn btn-danger btn-sm\" onclick=\"return confirm('Are you sure?')\">Delete</button> 
+                      </form>";
+                    return $btn;
+                   })
+                   ->rawColumns(['options'])
+                   ->make(true);
+        }
+  
+        return view('admin.products.index', [
+            'active' => 'product',
+            
+        ]);
     }
 
     /**
@@ -23,9 +52,16 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+        $categories = Category::all();
+        $suppliers = Supplier::all();
+        return view('admin.products.create',  [
+            'active' => 'products',
+            'categories' => $categories,
+            'suppliers' => $suppliers
+
+        ]);
     }
 
     /**
@@ -36,7 +72,9 @@ class ProductController extends Controller
      */
     public function store(StoreProductRequest $request)
     {
-        //
+        // dd($request->all());
+        Product::create($request->all());
+        return redirect('products')->with('success', 'Products has been created!');
     }
 
     /**
@@ -58,7 +96,10 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-        //
+    
+        return view('admin.products.edit',  [
+            'active' => 'products'
+        ]);
     }
 
     /**
