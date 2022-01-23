@@ -3,6 +3,12 @@
 @section('title-page', 'Suppliers')
 
 @section('container')
+@if(session()->has('success'))
+<div class="alert alert-success col-lg-8" role="alert">
+   {{ session('success')}}
+</div>
+@endif
+
     <div class="row">
         <div class="col mb-3">
             <a class="btn btn-secondary" href="{{ route('suppliers.create') }}"><i class="bi bi-plus-circle"></i> Add Supplier</a>
@@ -16,16 +22,16 @@
                     <th>Name</th>
                     <th>Phone</th>
                     <th>Address</th>
+                    <th>Options</th>
                 </thead>
                 <tbody>
-
                 </tbody>
             </table>
         </div>
     </div>
 @endsection
 
-@push('scripts')
+@section('js')
     <script>
         $(document).ready(function () {
             $('#tbl_supplier').DataTable({
@@ -36,7 +42,7 @@
                 paging: true,
                 processing: true,
                 serverSide: true,
-                ajax: '{{ url('suppliers/json') }}',
+                ajax: '{{ route('suppliers.index') }}',
                 columns: [{
                         data: 'id',
                         name: 'id'
@@ -53,15 +59,15 @@
                         data: 'phone',
                         name: 'phone'
                     },
-                    // {
-                    //     data: 'action',
-                    //     name: 'action',
-                    //     orderable: false,
-                    //     searchable: false
-                    // }
+                    {
+                        data: 'options',
+                        name: 'options',
+                        orderable: false,
+                        searchable: false
+                    }
                 ]
             });
         });
     </script>  
-@endpush
+@endsection
 

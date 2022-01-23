@@ -22,5 +22,5 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::get('/suppliers/json', [SupplierController::class,'supplierjson'])->name('supplier.json');
+// Route::get('/suppliers/json', [SupplierController::class,'supplierjson'])->name('supplier.json');
 Route::resource('suppliers', SupplierController::class);

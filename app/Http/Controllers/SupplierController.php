@@ -6,6 +6,7 @@ use App\Models\Supplier;
 use App\Http\Requests\StoreSupplierRequest;
 use App\Http\Requests\UpdateSupplierRequest;
 use Datatables;
+use Illuminate\Http\Request;
 
 
 class SupplierController extends Controller
@@ -15,22 +16,32 @@ class SupplierController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        if ($request->ajax()) {
+            $data = Supplier::all();
+            return Datatables::of($data)
+                   ->addIndexColumn()
+                   ->addColumn('options', function($row){
+                      $btn = '<a href="javascript:void(0)" class="edit btn btn-info btn-sm" hidden>View</a>';
+                      $btn = $btn.'<a href="'.route('suppliers.edit',$row->id).'" class="edit btn btn-primary btn-sm">Edit</a>';
+                      $btn = $btn.'<a href="'.route('suppliers.destroy',$row->id).'" class="edit btn btn-danger btn-sm">Delete</a>';
+    
+                       return $btn;
+                   })
+                   ->rawColumns(['options'])
+                   ->make(true);
+        }
+  
         return view('admin.suppliers.index', [
             'active' => 'suppliers',
             
         ]);
     }
 
-    public function supplierjson()
+    public function supplierjson(Request $request)
     {
-        return Datatables::of(Supplier::all())
-        // ->addColumn('action', function ($user) {
-        //     return '<a href="#edit-'.$user->id.'" class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-edit"></i> Edit</a>';
-        // })
-        // ->editColumn('id', 'ID: {{$id}}')
-        ->make(true);
+      
     }
 
     /**
@@ -77,7 +88,7 @@ class SupplierController extends Controller
      */
     public function edit(Supplier $supplier)
     {
-        //
+        
     }
 
     /**
@@ -100,6 +111,8 @@ class SupplierController extends Controller
      */
     public function destroy(Supplier $supplier)
     {
-        //
+        Supplier::destroy($supplier->id);
+
+        return redirect('suppliers')->with('success','Post has been deleted!');
     }
 }
